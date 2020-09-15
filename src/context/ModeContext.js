@@ -1,9 +1,13 @@
-import React, { useState, createContext } from "react"
+import React, { useState, createContext, useEffect } from "react"
 
 export const ModeContext = createContext()
 
 const ModeContextProvider = ({ children }) => {
-  const [mode, setMode] = useState("light")
+  const getLocalStorage = () => localStorage.getItem('mode') || 'light'
+  const [mode, setMode] = useState(getLocalStorage)
+  useEffect(() => {
+    localStorage.setItem('mode', mode)
+  }, [mode])
   return (
     <ModeContext.Provider value={{ mode, setMode }}>
       {children}
